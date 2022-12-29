@@ -145,9 +145,12 @@ class Report:
         self.yearCount = yearCount
         self.areaSalary = areaSalary
         self.areaPiece = areaPiece
-        # self.generate_excel()
-        # self.generate_image()
-        self.generate_pdf()
+        if self.inputValues.TableOrPdf == "Вакансии":
+            self.generate_excel()
+        if self.inputValues.TableOrPdf == "Статистика":
+            self.generate_excel()
+            self.generate_image()
+            self.generate_pdf()
 
     def generate_excel(self):
         execelFile = Workbook()
@@ -312,6 +315,7 @@ class InputConect:
     def __init__(self):
         self.fileName = input("Введите название файла: ")
         self.professionName = input("Введите название профессии: ")
+        self.TableOrPdf = input("Вакансии или Статистика: ")
         self.checkFile()
 
     def checkFile(self):
