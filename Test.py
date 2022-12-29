@@ -1,6 +1,6 @@
 from unittest import TestCase, main
-from a import Salary
-from a import DataSet
+from code_Fail import Salary
+from code_Fail import DataSet
 import unittest
 
 
