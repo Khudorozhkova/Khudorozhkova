@@ -14,7 +14,7 @@ from jinja2 import Environment, FileSystemLoader
 import pdfkit
 
 currency_to_rub = {
-    "AZN": 35.68,
+    "AZN": 35,
     "BYR": 23.91,
     "EUR": 59.90,
     "GEL": 21.74,

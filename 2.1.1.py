@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 currency_to_rub = {
-    "AZN": 35.68,
+    "AZN": 40,
     "BYR": 23.91,
     "EUR": 59.90,
     "GEL": 21.74,
