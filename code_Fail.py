@@ -29,12 +29,13 @@ currency_to_rub = {
 }
 
 '''Класс для представления вакансий
-
    Attributes:
        dic (dict) Словарь вакансий из csv файла
        salary (int) Зп из csv файла
        is_needed (string) Нужные вакансии из csv файла
    '''
+
+
 class Vacancy:
     def __init__(self, dic: dict):
         self.dic = dic
@@ -45,14 +46,12 @@ class Vacancy:
 
 class Salary:
     '''Класс для представленя зарплаты
-
        Attributes:
            salary_from (float) Нижняя граница вилки оклада
            salary_to (float) Верхняя граница вилки оклада
            salary_currency (string) Валюта
            averageSalary (float) Средняя зарплата
            salaryRub (float) Средняя зп в рублях
-
         >>> type(Salary(dic={"salary_from" : 100, "salary_to" : 200, "salary_currency" : "RUR"})).__name__
         'Salary'
         >>> Salary(dic={"salary_from" : 100, "salary_to" : 200, "salary_currency" : "RUR"}).averageSalary
@@ -60,6 +59,7 @@ class Salary:
         >>> Salary(dic={"salary_from" : 100, "salary_to" : 200, "salary_currency" : "EUR"}).salaryRub
         8985.0
     '''
+
     def __init__(self, dic):
         self.salary_from = math.floor(float(dic["salary_from"]))
         self.salary_to = math.floor(float(dic["salary_to"]))
@@ -70,27 +70,28 @@ class Salary:
 
 class DataSet:
     '''Класс для обработки данных из фалйа csv
-
         Attributes:
             inputValues (InputConect) входные данные
     '''
+
     def __init__(self):
         self.inputValues = InputConect()
         self.csv_reader()
         self.csv_filter()
         self.getYears()
         self.numberGraph()
-        #self.printGraph()
+        # self.printGraph()
 
     '''Считывание информации из файла в переменные
             :return: void
     '''
+
     def csv_reader(self):
         with open(self.inputValues.fileName, "r", encoding='utf-8-sig', newline='') as csv_file:
             file = csv.reader(csv_file)
             self.firstLine = next(file)
             self.otherLines = [line for line in file
-                               if not ("" in line) and len(line) == len(self.firstLine)] # a lot eat
+                               if not ("" in line) and len(line) == len(self.firstLine)]
 
     def tryToAdd(self, dic: dict, key, val) -> dict:
         '''Увеличние значения по ключу, если значение есть, если нет, то добавление записи в словарь
@@ -98,7 +99,6 @@ class DataSet:
             :param key: Ключ, которому добовляем значение
             :param val: Значение
             :return: dict
-
             >>> DataSet().tryToAdd(dic={'1' : 1}, key='1', val=1)
             {'1': 2}
             >>> DataSet().tryToAdd(dic={'1' : 1}, key='2', val=2)
@@ -114,13 +114,14 @@ class DataSet:
         Отбор нужных вакансий, отсев html тегов и т.д.
            :return: void
     '''
+
     def csv_filter(self):
         self.filterVacancies = []
         for line in self.otherLines:
             newDict = dict(zip(self.firstLine, line))
             newDict["is_needed"] = newDict["name"].find(self.inputValues.professionName) > -1
-            # vacancy = Vacancy(newDict)
-            self.filterVacancies.append(Vacancy(newDict))
+            vacancy = Vacancy(newDict)
+            self.filterVacancies.append(vacancy)
         self.necessaryVacancies = list(filter(lambda v: v.is_needed, self.filterVacancies))
 
     def getYears(self):
@@ -135,7 +136,6 @@ class DataSet:
             :param count (dict): Словарь с количеством вакансий по годам
             :param sum (dict): Словарь с суммой зп по годам
             :return: dict
-
             >>> DataSet().getAverageSalary(count={'2007' : 2}, sum={'2007' : 10})
             {'2007': 5}
         '''
@@ -151,7 +151,6 @@ class DataSet:
         '''Сортировка словаря, обрезка его количества до 10
             :param keySalary:
             :return: dict
-
             >>> len(DataSet().getSortedDict(keySalary={'1': 1, '2' : 2, '3' : 3, '4' : 4, '5' : 5, '6' : 6, '7' : 7, '8' : 8, '9' : 9, '10' : 10, '11' : 11, '12' : 12}))
             10
         '''
@@ -161,7 +160,6 @@ class DataSet:
         '''Обновление данных в словаре, если данных там нет
             :param keyCount: Количество вакансий по годам
             :return: dict
-
         >>> DataSet().updateKeys(keyCount={'2022' : 1000})
         {'2022': 1000, 2007: 0, 2008: 0, 2009: 0, 2010: 0, 2011: 0, 2012: 0, 2013: 0, 2014: 0, 2015: 0, 2016: 0, 2017: 0, 2018: 0, 2019: 0, 2020: 0, 2021: 0, 2022: 0}
         >>> DataSet().updateKeys(keyCount={'2023' : 1000})
@@ -221,8 +219,9 @@ class DataSet:
                year_to_count=self.year_to_count, yearCount=self.yearCount, areaSalary=self.areaSalary,
                areaPiece=self.areaPiece)
 
+
 '''Класс для создания отчетов
-    
+
     Attributes:
         inputValues (InputConect) Входные данные
         yearSalary (dict) Зарплата по годам
@@ -232,6 +231,8 @@ class DataSet:
         areaSalary (dict) Уровень зп по городам
         areaPiece (dict) Доля вакансий по городам
 '''
+
+
 class Report:
 
     def __init__(self, inputValues, yearSalary, yearSalary_needed, year_to_count, yearCount, areaSalary, areaPiece):
@@ -426,13 +427,15 @@ class Report:
         # for key1, value1, key2, value2 in self.areaSalary.items(), self.areaPiece.items():
         #     print(key1)
 
-'''Класс для получения входных данных. А также их валидации
 
+'''Класс для получения входных данных. А также их валидации
     Attributes:
         fileName (string) имя файла для получения статистики
         professionName (string) название профессии, по которой нужна статистика
         TableOrPdf (string) В какои формате нужна статистика
     '''
+
+
 class InputConect:
     def __init__(self):
         self.fileName = 'vacancies_by_year.csv'
@@ -454,8 +457,10 @@ class InputConect:
                 print("Нет данных")
                 sys.exit()
 
+
 '''Запуск'''
 if __name__ == "__main__":
     import doctest
+
     doctest.testmod()
 DataSet()
