@@ -119,8 +119,7 @@ class DataSet:
         for line in self.otherLines:
             newDict = dict(zip(self.firstLine, line))
             newDict["is_needed"] = newDict["name"].find(self.inputValues.professionName) > -1
-            vacancy = Vacancy(newDict)
-            self.filterVacancies.append(vacancy)
+            self.filterVacancies.append(Vacancy(newDict))
         self.necessaryVacancies = list(filter(lambda v: v.is_needed, self.filterVacancies))
 
     def getYears(self):
