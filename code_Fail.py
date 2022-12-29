@@ -91,7 +91,7 @@ class DataSet:
             file = csv.reader(csv_file)
             self.firstLine = next(file)
             self.otherLines = [line for line in file
-                               if not ("" in line) and len(line) == len(self.firstLine)]
+                               if not ("" in line) and len(line) == len(self.firstLine)] # a lot eat
 
     def tryToAdd(self, dic: dict, key, val) -> dict:
         '''Увеличние значения по ключу, если значение есть, если нет, то добавление записи в словарь
@@ -120,8 +120,8 @@ class DataSet:
         for line in self.otherLines:
             newDict = dict(zip(self.firstLine, line))
             newDict["is_needed"] = newDict["name"].find(self.inputValues.professionName) > -1
-            vacancy = Vacancy(newDict)
-            self.filterVacancies.append(vacancy)
+            # vacancy = Vacancy(newDict)
+            self.filterVacancies.append(Vacancy(newDict))
         self.necessaryVacancies = list(filter(lambda v: v.is_needed, self.filterVacancies))
 
     def getYears(self):
