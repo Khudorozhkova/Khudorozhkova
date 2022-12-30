@@ -3,7 +3,7 @@ from datetime import datetime
 import pandas as pd
 
 '''Ссылка на файл и создание датафрейма'''
-file = 'vacancies_by_year.csv'
+file = 'vacancies_dif_currencies.csv'
 df = pd.read_csv(file)
 
 '''Создаем новую колонку'''
