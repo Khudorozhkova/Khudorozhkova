@@ -14,3 +14,7 @@
 ## Задание 3.2.3
 ![2022-12-30_01-40-12](https://user-images.githubusercontent.com/112847807/210009658-b29314d5-aa99-4bca-bef7-2fff678c9792.png)
 
+## Задание 3.3.1
+![3 3 1-1](https://user-images.githubusercontent.com/112847807/210054002-579a99c3-31c2-4fd3-a97b-28e0d716dd46.png)
+
+![3 3 1-2](https://user-images.githubusercontent.com/112847807/210054022-6172bb4f-4754-410b-892d-7aa57e56fad9.png)
