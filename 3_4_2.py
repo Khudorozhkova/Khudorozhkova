@@ -15,8 +15,25 @@ import matplotlib.pyplot as plt
 from jinja2 import Environment, FileSystemLoader
 import pdfkit
 
+currency_to_rub = {
+    "AZN": 35.68,
+    "BYR": 23.91,
+    "EUR": 59.90,
+    "GEL": 21.74,
+    "KGS": 0.76,
+    "KZT": 0.13,
+    "RUR": 1,
+    "UAH": 1.64,
+    "USD": 60.66,
+    "UZS": 0.0055,
+}
+def GetSalaryToRub(row):
+    if math.isnan(row['salary_mean']):
+        return 0
+    return row['salary_mean'] * currency_to_rub[row['salary_currency']]
 
-class DataSet():
+
+class DataSet:
     def __init__(self):
         self.folder_name = 'csv'
         self.inputValues = InputConect()
@@ -25,6 +42,7 @@ class DataSet():
 
 
         self.df['salary'] = self.df[['salary_from', 'salary_to']].mean(axis=1)
+        self.df['salary'] = self.df.apply(GetSalaryToRub, axis=1)
         self.df['published_at'] = self.df['published_at'].apply(lambda x: int(x[:4]))
         df_vacancy = self.df[self.df['name'].str.contains(self.vacancy)]
         self.years = self.df['published_at'].unique()
@@ -71,6 +89,7 @@ class DataSet():
         if os.path.exists(file_path):
             df = pd.read_csv(file_path)
             df["salary"] = df[["salary_from", "salary_to"]].mean(axis=1)
+            df['salary'] = df.apply(GetSalaryToRub, axis=1)
             df_vacancy = df[df["name"].str.contains(self.vacancy)]
 
             averageSalary = math.floor(df["salary"].mean())
@@ -311,7 +330,8 @@ class Report:
                                         "heads1": heads1,
                                         "heads2": heads2, })
         config = pdfkit.configuration(wkhtmltopdf=r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe')
-        pdfkit.from_string(pdf_template, 'report.pdf', configuration=config, options={"enable-local-file-access": None})
+        pdfkit.from_string(pdf_template, 'report2.pdf', configuration=config,
+                           options={"enable-local-file-access": None})
 
 class InputConect:
     '''Класс для получения входных данных и их валидации
